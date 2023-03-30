@@ -5,12 +5,56 @@ TypeScript
 MySQL
 ```
 
+## Endpoints
+
+#### Registration
+```
+POST http://localhost:777/auth/register
+body {
+  "email": "",
+   "password": "" 
+}
+
+Response:
+{
+    "statusCode": ,
+    "message": ""
+}
+```
+#### Login
+```
+POST http://localhost:777/auth/login
+body {
+  "username": "",
+  "password": "" 
+}
+
+Response:
+{
+    "statusCode": ,
+    "message": "",
+    "access_token": ""
+}
+```
+#### Check user session by cookie
+```
+GET http://localhost:777/checkUser
+
+Response: 
+{
+    "statusCode": ,
+    "user": {
+        "id": ,
+        "email": ""
+    }
+}
+```
+
 ## Setup
 
 * Change .env.local to .env
 * Set up the variables inside .env
 * Run application as below
-
 
 
 ## Description
