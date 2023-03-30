@@ -1,5 +1,6 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 
 @Controller()
@@ -13,7 +14,19 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@Request() req, @Res({ passthrough: true }) response) {
+    const access_token = await this.authService.login(req.user);
+    response.cookie('access_token', access_token);
+    return {
+      statusCode: 200,
+      message: 'Authorized',
+      access_token,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('checkUser')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }

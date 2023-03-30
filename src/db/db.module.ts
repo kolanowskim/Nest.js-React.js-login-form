@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DbService } from './db.service';
 import { Users } from './user.entity';
 
+const portNumber = Number(process.env.DB_PORT);
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      database: 'codi',
+      host: process.env.DB_HOST,
+      port: portNumber,
+      username: process.env.DB_USER,
+      database: process.env.DB_NAME,
       entities: [Users],
       synchronize: true,
     }),
   ],
-  providers: [DbService],
-  exports: [DbService],
+  providers: [],
+  exports: [],
 })
 export class DbModule {}
